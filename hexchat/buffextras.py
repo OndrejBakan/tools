@@ -44,7 +44,10 @@ def privmsg(word, word_eol, userdata, attrs):
             # :nick!ident@host joined
             send("Join", nick, channel, userhost)
         elif _type == 'parted':
-            if args.startswith('with message: ['):
+            if args.endswith(']', 15):
+                # :nick!ident@host parted with message: []
+                send("Part", nick, userhost, channel)
+            elif args.startswith('with message: ['):
                 # :nick!ident@host parted with message: [bla bla]
                 send("Part with Reason", nick, userhost, channel,
                      args[15:-1])
